@@ -1,8 +1,10 @@
 # CRUD Agenda
 
-## Learning MERN
+## Purpose: Learning MERN
 
-### Dependencies:
+### Dependencies
+
+#### Node packages:
 - body-parser
 - concurrently
 - cors
