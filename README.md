@@ -1,15 +1,11 @@
 # CRUD Agenda
 
-## Purpose: Learning MERN
+view package.json for node packages used
 
-### Dependencies
+### notes
+mongodb auth: .env
+MONGODB_URI = <link>
 
-#### Node packages:
-- body-parser
-- concurrently
-- cors
-- express
-- mongoose
-- nodemon
-- react-dom
-- react
+#### changelog:
+v0.0.1: landing page
+
