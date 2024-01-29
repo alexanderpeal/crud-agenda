@@ -13,7 +13,7 @@ app.use(express.static('public')); // serve static files
 
 // connect to MongoDB
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, {useNewurlParser: true, useUnifiedTopology: true});
+mongoose.connect(uri);
 
 const connection = mongoose.connection;
 connection.once('open', () => {
