@@ -10,4 +10,3 @@ v0.0.2: added GET, POST request support and db view
 
 ### issues/tasks
 - patch only works by item name
-- 
