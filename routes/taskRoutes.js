@@ -42,7 +42,7 @@ router.post('/add', [
     }
 });
 
-// READ all items
+// READ (read all tasks from the database)
 router.get('/', async (req, res) => {
     try {
         // Lean fetches JSON. This way we can render using handlebars
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// UPDATE an item
+// UPDATE an item (by task name)
 router.patch('/:taskName', [
     body('itemName').optional().isString().withMessage(
         'itemName must be a string'),
@@ -84,6 +84,25 @@ router.patch('/:taskName', [
 
         res.status(200).json(updatedTask);
 
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
+// DELETE an item (by task name)
+router.delete('/:taskName', async (req, res) => {
+    const taskName = req.params.taskName;
+
+    try {
+        const deletedTask = await Task.findOneAndDelete(
+            {itemName: taskName},
+        );
+
+        if (!deletedTask) {
+            return res.status(404).json({message: "Task not found"});
+        }
+
+        res.status(200).json(deletedTask);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
