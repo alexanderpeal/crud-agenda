@@ -1,15 +1,29 @@
+/**
+ * index.js
+ * 
+ * Entry point for application
+ */
+
+// modules, read env file
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const {engine} = require('express-handlebars');
 const taskRoutes = require('./routes/taskRoutes'); // import task routes
 require('dotenv').config();
 
+// Set up express application
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public')); // serve static files
+app.set('view engine', 'handlebars');
+app.engine('handlebars', engine({
+    defaultLayout: false,
+    layoutsDir: 'views/layouts'
+}));
 
 // connect to MongoDB
 const uri = process.env.MONGODB_URI;
