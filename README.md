@@ -7,3 +7,7 @@ To connect to MongoDB:
 #### changelog:
 v0.0.1: landing page
 v0.0.2: added GET, POST request support and db view
+
+### issues/tasks
+- patch only works by item name
+- 

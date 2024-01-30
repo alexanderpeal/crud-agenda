@@ -1,13 +1,20 @@
+/**
+ * index.js
+ * 
+ * Entry point for application
+ */
+
+// modules, read env file
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { engine } = require('express-handlebars');
-
+const {engine} = require('express-handlebars');
 const taskRoutes = require('./routes/taskRoutes'); // import task routes
 require('dotenv').config();
 
+// Set up express application
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
