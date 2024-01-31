@@ -1,5 +1,7 @@
 # To-Do List
 
+Run server using npm run dev
+
 To connect to MongoDB:
 - create a .env file
 - add a variable MONGODB_URI with the the URI of the server
