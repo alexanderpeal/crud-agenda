@@ -1,52 +1,59 @@
 /**
  * index.js
- * Entry point for application.
+ * 
+ * Entry point for the application.
  */
 
-const apiVersion = process.env.API_VERSION || 'v1';
-
+const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {engine} = require('express-handlebars');
 
+// API versioning
+const apiVersion = process.env.API_VERSION || 'v1';
+
+// Configure dotenv with proper API version
+require('dotenv').config({path: `./src/${apiVersion}/config/.env`});
+
+// Routes
 const taskRoutes = require(`./${apiVersion}/routes/task-routes`);
 
-require('dotenv').config({path: './src/v1/config/.env'});
-
-// Set up express application
+// Initialize Express app
 const app = express();
+
+// Configure Express middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.set('view engine', 'handlebars');
 
-const viewsPath = path.join(__dirname, `/${apiVersion}/views/layouts`)
-app.set('views', viewsPath);
+// Handlebars view engine setup
+app.set('view engine', 'handlebars');
+const layoutsDirPath = path.join(__dirname, `/${apiVersion}/views/layouts`)
 app.engine('handlebars', engine({
     defaultLayout: 'tasks',
     layoutsDir: path.join(__dirname, `/${apiVersion}/views/layouts`)
 }));
+app.set('views', layoutsDirPath);
 
+// API routes
 app.use(`/api/${apiVersion}/tasks`, taskRoutes);
 
-// connect to MongoDB
-const uri = process.env.MONGODB_URI;
-mongoose.connect(uri);
-
-const connection = mongoose.connection;
-connection.once('open', () => {
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, "MongoDB connection error: "));
+db.once('open', () => {
     console.log("MongoDB database successfully connected");
 });
 
-// Serve index.html
+// Serve index.html for the root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, `./${apiVersion}/views/index.html`));
 });
 
-// run server
+// Start the server
 app.listen(5000, () => {
     console.log(`Server running on port 5000, API ${apiVersion}`);
 });
