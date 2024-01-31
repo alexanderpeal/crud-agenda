@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const {engine} = require('express-handlebars');
 const taskRoutes = require('./routes/taskRoutes'); // import task routes
-require('dotenv').config();
+require('dotenv').config({path: './src/config/.env'});
 
 // Set up express application
 const app = express();
