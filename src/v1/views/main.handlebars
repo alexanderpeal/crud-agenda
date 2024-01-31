@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks List</title>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <ul>
+        {{#each tasks}}
+            <li>{{this.itemName}} - {{this.description}}</li>
+        {{/each}}
+    </ul>
+</body>
+</html>
