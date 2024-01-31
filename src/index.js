@@ -1,29 +1,36 @@
 /**
  * index.js
- * 
- * Entry point for application
+ * Entry point for application.
  */
 
-// modules, read env file
+const apiVersion = process.env.API_VERSION || 'v1';
+
+const cors = require('cors');
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
 const {engine} = require('express-handlebars');
-const taskRoutes = require('./routes/taskRoutes'); // import task routes
-require('dotenv').config({path: './src/config/.env'});
+
+const taskRoutes = require(`./${apiVersion}/routes/task-routes`);
+
+require('dotenv').config({path: './src/v1/config/.env'});
 
 // Set up express application
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public')); // serve static files
+app.use(express.static('public'));
 app.set('view engine', 'handlebars');
+
+const viewsPath = path.join(__dirname, `/${apiVersion}/views/layouts`)
+app.set('views', viewsPath);
 app.engine('handlebars', engine({
-    defaultLayout: false,
-    layoutsDir: 'views/layouts'
+    defaultLayout: 'tasks',
+    layoutsDir: path.join(__dirname, `/${apiVersion}/views/layouts`)
 }));
+
+app.use(`/api/${apiVersion}/tasks`, taskRoutes);
 
 // connect to MongoDB
 const uri = process.env.MONGODB_URI;
@@ -34,15 +41,12 @@ connection.once('open', () => {
     console.log("MongoDB database successfully connected");
 });
 
-// Use routes
-app.use('/tasks', taskRoutes);
-
 // Serve index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './views/index.html'));
+    res.sendFile(path.join(__dirname, `./${apiVersion}/views/index.html`));
 });
 
 // run server
 app.listen(5000, () => {
-    console.log("Server running on port 5000");
+    console.log(`Server running on port 5000, API ${apiVersion}`);
 });
