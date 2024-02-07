@@ -16,3 +16,6 @@ v0.0.3: basic CRUD operations complete
 
 #### issues/tasks
 - patch only works by item name
+
+#### to do:
+- implement next.js
