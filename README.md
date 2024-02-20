@@ -1,18 +1,26 @@
 # To-Do List
+A basic to-do list. 
 
-Run server using npm run dev
+Current features:
+- You can view all of the tasks you've created
+- You can create tasks to complete
+- You can update a given task
+- You can delete tasks that you've completed
 
-To connect to MongoDB:
-- create a .env file
-- add a variable MONGODB_URI with the the URI of the server
+## Setup
+If cloning, be sure to add the URI to the MongoDB server. 
+See src/(api_version)/config/ENV-README.
 
-#### current functionality
-landing page
+## Run
+To run back-end server:
+```
+npm run dev
+```
 
-#### changelog:
-v0.0.1: landing page
-v0.0.2: added GET, POST request support and db view
-v0.0.3: basic CRUD operations complete
+## Changelog
+v0.0.3: Added support for UPDATE and DELETE requests
+v0.0.2: Added support for GET and POST requests
+v0.0.1: Added basic database view page
 
-#### issues/tasks
-- patch only works by item name
+## Features to be added
+- Allow user to update tasks on criteria besides the name

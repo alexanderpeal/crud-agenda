@@ -1,7 +1,8 @@
 /**
  * task.js
  * 
- * Defines the schema and model for a task to be ujsed by mongoose.
+ * Defines the Mongoose schema and model for a task. Allows tasks to be easily
+ * stored in MongoDB.
  */
 
 const mongoose = require('mongoose');
