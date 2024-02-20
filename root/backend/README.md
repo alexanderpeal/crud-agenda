@@ -1,4 +1,4 @@
-# To-Do List (Backend)
+# To-Do List (Back-end)
 
 ## Setup
 If cloning, be sure to add the URI to the MongoDB server. 
