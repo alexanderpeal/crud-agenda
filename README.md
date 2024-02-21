@@ -7,8 +7,10 @@ Current features:
 - You can update a given task
 - You can delete tasks that you've completed
 
-## Run
+## How to run
 (Coming soon)
 
 ## Features to be added
 - Allow user to update tasks on criteria besides the name
+- Allow ChatGPT to give advice on how to complete a given task
+- Add OAuth to allow users to sign in and save their data
