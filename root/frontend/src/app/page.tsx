@@ -2,6 +2,8 @@ import Image from "next/image";
 import TaskComponent from "./TaskComponent";
 
 export default function Home() {
+
+
   return (
     <main className="">
       {/* Title */}
@@ -11,7 +13,12 @@ export default function Home() {
 
       {/* View of tasks (use media queries) */}
       <div className="w p-4 bg-yellow-200">
-        <TaskComponent message="test"}/>
+        <TaskComponent 
+          itemName="test name"
+          description="test description"
+          deadline={new Date()}
+          complete={false}
+        />
       </div>
 
     </main>
