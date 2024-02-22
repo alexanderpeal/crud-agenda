@@ -1,8 +1,22 @@
+'use client'
+
 import Image from "next/image";
 import TaskComponent from "./TaskComponent";
+import axios from 'axios';
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
+  const [tasks, setTasks] = useState([]);
 
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+      .then(response => {
+        setTasks(response.data); // Axios automatically converts JSON data
+      })
+      .catch(error => console.error("Failed to fetch data:", error));
+  }, []);
+
+  console.log(tasks);
 
   return (
     <main className="">
