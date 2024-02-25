@@ -30,7 +30,7 @@ const validate = (validations) => {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             return next();
-        }s
+        }
         res.status(STATUS_BAD_REQUEST).json({
             errors: errors.array()
         });
@@ -44,8 +44,8 @@ const asyncHandler = fn => (req, res, next) => {
 
 // CREATE a new item
 router.post('/add', validate([
-    ...taskValidationRules,
-    body('itemName').notEmpty().withMessage('itemName is a required field')
+    ...taskValidationRules //,
+    //body('itemName').notEmpty().withMessage('itemName is a required field')
 ]), asyncHandler(async (req, res) => {
     const newTask = new Task({...req.body});
     const savedTask = await newTask.save();

@@ -18,7 +18,7 @@ const apiVersion = process.env.API_VERSION || 'v1';
 require('dotenv').config({path: `./src/${apiVersion}/config/.env`});
 
 // Routes
-const taskRoutes = require(`./${apiVersion}/routes/task-routes`);
+const taskRoutes = require(`./src/${apiVersion}/routes/task-routes`);
 
 // Initialize Express app
 const app = express();
@@ -54,6 +54,6 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(5000, () => {
-    console.log(`Server running on port 5000, API ${apiVersion}`);
+app.listen(3001, () => {
+    console.log(`Server running on port 3001, API ${apiVersion}`);
 });
