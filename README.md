@@ -1,4 +1,4 @@
-# To-Do List
+# Task Management Application
 A basic to-do list. 
 
 Current features:
