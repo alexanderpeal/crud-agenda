@@ -1,26 +1,26 @@
-interface TaskProps {
-    itemName: string;
-    description: string;
-    deadline:Date;
-    complete:boolean;
+/**
+ * TaskComponent.tsx
+ */
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Task } from './models';
+
+
+interface TaskComponentProps {
+    task: Task;
+    onTaskDeleted: () => void;
 }
 
-import axios from 'axios';
-import React, { useState } from 'react';
-
-const TaskComponent: React.FC<TaskProps> = ({
-    itemName, description, deadline, complete}) => {
-
+const TaskComponent: React.FC<TaskComponentProps> = ({ task, onTaskDeleted }) => {
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
     const handleDelete = async () => {
         try {
-          // Use the `axios.delete` method to send a DELETE request
-          const response = await axios.delete(`http://localhost:3001/api/v1/tasks/${itemName}`);
+          const response = await axios.delete(`http://localhost:3001/api/v1/tasks/${task.itemName}`);
           console.log('Task deleted successfully:', response.data);
           
-          // Optionally, trigger re-fetching or updating of the task list in the parent component
-          // onDeletion();
+          onTaskDeleted();
         } catch (error) {
           console.error('Error deleting task:', error);
         }
@@ -30,10 +30,10 @@ const TaskComponent: React.FC<TaskProps> = ({
         <div className="hover:bg-sky-700 relative flex items-start justify-between p-4">
             <div>
                 <ul>
-                    <li>Task Name - {itemName}</li>
-                    <li>Description - {description}</li>
-                    <li>Deadline - {deadline.toString()}</li>
-                    <li>Status - {complete ? "Complete" : "Incomplete"}</li>
+                    <li>Task Name - {task.itemName}</li>
+                    <li>Description - {task.description}</li>
+                    <li>Deadline - {task.deadline ? task.deadline.toString() : "no deadline"}</li>
+                    <li>Status - {task.complete ? "Complete" : "Incomplete"}</li>
                 </ul>
             </div>
 

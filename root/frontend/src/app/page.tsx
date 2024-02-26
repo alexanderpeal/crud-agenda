@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TaskComponent from "./TaskComponent";
-import FormComponent from "./TaskFormComponent";
+import TaskFormComponent from "./TaskFormComponent";
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 
@@ -15,6 +15,11 @@ interface Task {
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  const fetchTasks = async () => {
+    const response = await axios.get<Task[]>('http://localhost:3001/api/v1/tasks');
+    setTasks(response.data);
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/v1/tasks')
@@ -38,23 +43,25 @@ export default function Home() {
         {/* View of tasks (use media queries) */}
         <div className="flex-1 p-4 bg-yellow-200">
           {tasks.map(task => (
-            <TaskComponent 
-            itemName={task.itemName}
-            description="test description"
-            deadline={task.deadline ? task.deadline : new Date()}
-            complete={false}
+            <TaskComponent
+            // itemName={task.itemName}
+            // description="test description"
+            // deadline={task.deadline ? task.deadline : new Date()}
+            // complete={false}
+            task={task}
+            onTaskDeleted={fetchTasks}
           />
           ))}
         </div>
 
         {/* Add a new task view */}
         <div className="flex-1 bg-green-200">
-          <FormComponent />
+          <TaskFormComponent onTaskAdded={fetchTasks}/>
         </div>
 
       </div>
 
-      
+
 
     </main>
   );

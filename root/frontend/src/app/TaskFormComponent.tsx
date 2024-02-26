@@ -1,27 +1,30 @@
+/**
+ * TaskFormComponent.tsx
+ */
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// No props in this example, but you could define an interface for them if needed
+interface TaskFormProps {
+  // Callback to refresh the task list in the parent component
+  onTaskAdded: () => void
+}
 
-function TaskForm() {
-  const [itemName, setItemName] = useState<string>(''); // Specify the state variable type
-  const [description, setDescription] = useState<string>(''); // Specify the state variable type
-  // Add types for other state variables as needed
+const TaskFormComponent: React.FC<TaskFormProps> = ({ onTaskAdded }) => {
+  const [itemName, setItemName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => { // Type the event and return value
-    e.preventDefault(); // Prevent the default form submit action
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/tasks/add', {
-        itemName,
-        description,
-        // Include other fields as necessary
-      });
+      const response = await axios.post('http://localhost:3001/api/v1/tasks/add', {itemName, description});
+      onTaskAdded();
       console.log(response.data);
-      // Handle success (e.g., showing a success message, clearing the form)
+
+      setItemName('');
+      setDescription('');
     } catch (error) {
       console.error('There was an error submitting the form:', error);
-      // Handle error (e.g., showing an error message)
     }
   };
 
@@ -68,4 +71,4 @@ function TaskForm() {
   );
 }
 
-export default TaskForm;
+export default TaskFormComponent;
