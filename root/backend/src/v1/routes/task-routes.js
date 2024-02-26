@@ -49,13 +49,15 @@ router.post('/add', validate([
 ]), asyncHandler(async (req, res) => {
     const newTask = new Task({...req.body});
     const savedTask = await newTask.save();
+    console.log(`Created ${newTask}`);
     res.status(STATUS_CREATED).json(savedTask);
 }))
 
 // READ (read all tasks from the database)
 router.get('/', asyncHandler(async (req, res) => {
     const tasks = await Task.find().lean();
-    res.render('tasks', { tasks });
+    // res.render('tasks', { tasks });
+    res.status(STATUS_OK).json(tasks);
 }));    
 
 // UPDATE an item (by task name)
