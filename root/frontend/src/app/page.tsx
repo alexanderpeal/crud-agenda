@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import TaskComponent from "./TaskComponent";
+import FormComponent from "./FormComponent";
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 
@@ -48,7 +49,7 @@ export default function Home() {
 
         {/* Add a new task view */}
         <div className="flex-1 bg-green-200">
-          
+          <FormComponent />
         </div>
 
       </div>
