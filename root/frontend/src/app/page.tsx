@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TaskComponent from "./TaskComponent";
-import FormComponent from "./FormComponent";
+import FormComponent from "./TaskFormComponent";
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 
@@ -41,7 +41,7 @@ export default function Home() {
             <TaskComponent 
             itemName={task.itemName}
             description="test description"
-            deadline={new Date()}
+            deadline={task.deadline ? task.deadline : new Date()}
             complete={false}
           />
           ))}
