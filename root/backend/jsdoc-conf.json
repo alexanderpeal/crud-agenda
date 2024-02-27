@@ -1,0 +1,7 @@
+{
+    "source": {
+      "include": [".", "root/backend/src/v1/routes/task-router.js"],
+      "includePattern": ".+\\.js(doc|x)?$",
+      "excludePattern": "node_modules"
+    }
+  }
