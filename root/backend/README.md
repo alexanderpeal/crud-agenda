@@ -39,6 +39,9 @@ MONGODB_URI = "mongodb+srv://<your_mongodb_uri_here>"
 For certain files in the back-end, you can view documention using jsdoc: 
 https://github.com/jsdoc/jsdoc
 
+I generate docs by using:
+
+
 ## Changelog
 - v1.0.3: Added support for UPDATE and DELETE requests
 - v1.0.2: Added support for GET and POST requests
