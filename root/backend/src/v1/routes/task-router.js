@@ -1,29 +1,25 @@
 /**
- * task-routes.js
- * 
- * Defines the routes that lead to API endpoints.
+ * task-router.js
+ * Express router that defines routes leading to task API endpoints.
  */
 
+// Setup and HTTP status codes
 const express = require('express');
 const router = express.Router();
 const Task = require('../models/task');
 const {body, validationResult, Result} = require('express-validator');
-
-// Constants for HTTP status codes
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const STATUS_BAD_REQUEST = 400;
 const STATUS_NOT_FOUND = 404;
 
-// Task validation rules (ensure proper data types for task data fields)
+// Task validation rules, error handling middleware, and async error handler
 const taskValidationRules = [
     body('itemName').optional().isString().withMessage('itemName must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
     body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
     body('complete').optional().isBoolean().withMessage('complete must be a boolean')
 ];
-
-// Error handling middleware
 const validate = (validations) => {
     return async (req, res, next) => {
         await Promise.all(validations.map(validation => validation.run(req)));
@@ -36,13 +32,15 @@ const validate = (validations) => {
         });
     }
 }
-
-// Async handler to centralize error handling
 const asyncHandler = fn => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-// CREATE a new item
+/**
+ * @route POST /api/v1/tasks/add
+ * @desc  Creates a new task.
+ * @param 
+ */
 router.post('/add', validate([
     ...taskValidationRules,
     body('itemName').notEmpty().withMessage('itemName is a required field')

@@ -8,7 +8,9 @@ Current features:
 - You can delete tasks that you've completed
 
 ## How to run
-(Coming soon)
+In root/backend, run ```npm run dev```
+In root/frontend, run ```npm run dev```
+Navigate to http://localhost:3000
 
 ## Features to be added
 - Allow user to update tasks on criteria besides the name
