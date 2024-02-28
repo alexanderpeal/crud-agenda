@@ -10,24 +10,27 @@
 // Setup (router, validation, task model)
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task');
+const Task = require('../models/task').default;
 const {body, validationResult} = require('express-validator');
 
 // HTTP status codes
+// TODO: standardize the error response structure to make it easier for clients
+// to parse.
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const STATUS_BAD_REQUEST = 400;
 const STATUS_NOT_FOUND = 404;
 
 /**
- * List of Validatiors, which ensure that the task given in any request body has
- * legal request body parameters.
+ * List of Validators, which ensure that the task given in any request body has
+ * legal request body parameters. All tasks must have names and a status, but
+ * the other fields are optional.
  * 
  * @const
  * @type {Array<ValidationChain>}
  */
 const taskValidationRules = [
-    body('itemName').optional().isString().withMessage('itemName must be a string'),
+    body('name').optional().isString().withMessage('name must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
     body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
     body('complete').optional().isBoolean().withMessage('complete must be a boolean')
@@ -88,10 +91,15 @@ const asyncHandler = fn => (req, res, next) => {
  * @summary Add a task.
  * @param {String} path - Express path
  * @param {callback} validate - Middleware that verifies task params 
+ * 
+ * @api {post} /api/v1/tasks/add Add a task
+ * @apiName AddTask
+ * @apiGroup Task
+ * @apiParam (Request body) {String}
  */
 router.post('/add', validate([
     ...taskValidationRules,
-    body('itemName').notEmpty().withMessage('itemName is a required field')
+    body('name').notEmpty().withMessage('name is a required field')
 ]), asyncHandler(async (req, res) => {
     const newTask = new Task({...req.body});
     const savedTask = await newTask.save();

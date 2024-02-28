@@ -6,10 +6,9 @@
 
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const {engine} = require('express-handlebars');
 
 // API versioning
 require('dotenv').config({path: `./src/config/.env`});
@@ -38,6 +37,8 @@ app.listen(3001, () => {
 });
 
 // Handlebars view engine setup
+// const path = require('path');
+// const {engine} = require('express-handlebars');
 // app.set('view engine', 'handlebars');
 // const layoutsDirPath = path.join(__dirname, `/${apiVersion}/views/layouts`)
 // app.engine('handlebars', engine({
