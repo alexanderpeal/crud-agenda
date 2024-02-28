@@ -1,26 +1,52 @@
-/**
- * fsjfdkl
- * task-router.js
- * Express router that defines routes leading to task API endpoints.
+/** 
+ * Express router providing task-related API routes.
+ * 
+ * @module src/v1/routes
+ * @requires express
+ * @since 2024-02-28
+ * @author Alexander Peal
  */
 
-// Setup and HTTP status codes
+// Setup (router, validation, task model)
 const express = require('express');
 const router = express.Router();
 const Task = require('../models/task');
-const {body, validationResult, Result} = require('express-validator');
+const {body, validationResult} = require('express-validator');
+
+// HTTP status codes
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const STATUS_BAD_REQUEST = 400;
 const STATUS_NOT_FOUND = 404;
 
-// Task validation rules, error handling middleware, and async error handler
+/**
+ * List of Validatiors, which ensure that the task given in any request body has
+ * legal request body parameters.
+ * 
+ * @const
+ * @type {Array<ValidationChain>}
+ */
 const taskValidationRules = [
     body('itemName').optional().isString().withMessage('itemName must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
     body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
     body('complete').optional().isBoolean().withMessage('complete must be a boolean')
 ];
+
+/**
+ * Middleware that checks taskValidationRules against the request body.
+ * If the validation is unsuccessful, sends a bad request error with details
+ * of the validation errors.
+ * Ensures requests made to the server contain neccesary information and meet
+ * expected formats.
+ * 
+ * @async
+ * @param {Array<ValidationChain>} validations
+ *      The list of validations to check the request body against
+ * @returns
+ *      The next middleware if successful, or nothing if the validation is 
+ *      unsuccessful.
+ */
 const validate = (validations) => {
     return async (req, res, next) => {
         await Promise.all(validations.map(validation => validation.run(req)));
@@ -33,14 +59,35 @@ const validate = (validations) => {
         });
     }
 }
+
+/**
+ * Middleware that sets up and handles promises for async functions.
+ * By wrapping async functions with this middleware, it ensures that any
+ * rejected promise/error is passed to the next error handling middleware,
+ * preventing a server crash or error.
+ * 
+ * @async
+ * @param {Function} fn
+ *      The async function to be handled
+ * @returns
+ *      A new function that wraps the async function and error handling logic,
+ *      conforming to Express.js's expected middleware signature, allowing it
+ *      to be used in route definitions.
+ */
 const asyncHandler = fn => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
 /**
- * @route POST /api/v1/tasks/add
- * @desc  Creates a new task.
- * @param 
+ * Defines a route for adding a new task, using middleware for validation and
+ * async error handling. If validation passes, the asyncHandler middleware
+ * manages the route's async logic by saving the task to the database
+ * and responding with a 201 (Created) HTTP code and the created task.
+ * 
+ * @name  POST /api/v1/tasks/add
+ * @summary Add a task.
+ * @param {String} path - Express path
+ * @param {callback} validate - Middleware that verifies task params 
  */
 router.post('/add', validate([
     ...taskValidationRules,
@@ -50,7 +97,7 @@ router.post('/add', validate([
     const savedTask = await newTask.save();
     console.log(`Created ${newTask}`);
     res.status(STATUS_CREATED).json(savedTask);
-}))
+}));
 
 // READ (read all tasks from the database)
 router.get('/', asyncHandler(async (req, res) => {
@@ -82,3 +129,6 @@ router.delete('/:taskName', asyncHandler(async (req, res) => {
 }));
 
 module.exports = router;
+// export default router;
+// Setup and HTTP status codes
+// Task validation rules, error handling middleware, and async error handler

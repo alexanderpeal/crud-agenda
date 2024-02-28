@@ -38,8 +38,11 @@ MONGODB_URI = "mongodb+srv://<your_mongodb_uri_here>"
 ## View docs using jsdoc
 For certain files in the back-end, you can view documention using jsdoc: 
 https://github.com/jsdoc/jsdoc
+https://jsdoc.app/
 
-I generate docs by using:
+To generate docs, run (tbd)
+
+# TODO: add apidoc
 
 
 ## Changelog
