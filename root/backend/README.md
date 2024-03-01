@@ -43,6 +43,11 @@ https://jsdoc.app/
 To generate docs, run (tbd)
 
 # TODO: add apidoc
+add apidoc/jsdoc full functionality
+add logging
+verify new schema works
+make request robust for frontend
+frontend should be able to manip db access read write deletes creaesS
 
 
 ## Changelog

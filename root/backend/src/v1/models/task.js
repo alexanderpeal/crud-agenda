@@ -6,7 +6,7 @@
  * @since 2024-02-28
  */
 
-import { Schema, model } from 'mongoose';
+const mongoose = require('mongoose');
 
 /**
  * Schema definition for a task.
@@ -33,7 +33,7 @@ import { Schema, model } from 'mongoose';
  * TODO: Add instance methods or static methods to enhance functionality, e.g.,
  *       to check if a task is overdue.
  */
-const taskSchema = new Schema({
+const taskSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -72,6 +72,6 @@ taskSchema.pre('save', function(next) {
     next();
 });
 
-const Task = model('Task', taskSchema);
+const Task = mongoose.model('Task', taskSchema);
 
-export default Task;
+module.exports = Task;

@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // API versioning
-require('dotenv').config({path: `./src/config/.env`});
+require('dotenv').config({path: `./.env`});
 
 const apiVersion = process.env.API_VERSION || 'v1';
 const taskRouter = require(`./src/${apiVersion}/routes/task-router`);

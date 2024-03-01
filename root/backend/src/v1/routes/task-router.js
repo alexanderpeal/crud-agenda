@@ -5,17 +5,18 @@
  * @requires express
  * @since 2024-02-28
  * @author Alexander Peal
+ * 
+ * TODO: standardize the error response structure to make it easier for clients
+ * to parse.
  */
 
 // Setup (router, validation, task model)
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task').default;
+const Task = require('../models/task'); //.default;
 const {body, validationResult} = require('express-validator');
 
 // HTTP status codes
-// TODO: standardize the error response structure to make it easier for clients
-// to parse.
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const STATUS_BAD_REQUEST = 400;
@@ -33,7 +34,7 @@ const taskValidationRules = [
     body('name').optional().isString().withMessage('name must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
     body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
-    body('complete').optional().isBoolean().withMessage('complete must be a boolean')
+    body('status').optional().isString().withMessage('complete must be a boolean')
 ];
 
 /**
@@ -95,8 +96,31 @@ const asyncHandler = fn => (req, res, next) => {
  * @api {post} /api/v1/tasks/add Add a task
  * @apiName AddTask
  * @apiGroup Task
- * @apiParam (Request body) {String}
- */
+ * 
+ * @apiParam (Request body) {String} name
+ *      Name of the task
+ * @apiParam (Request body) {String} [description]
+ *      Description of the task (optional)
+ * @apiParam (Request body) {String} deadline
+ *      Deadline of the task (optional)
+ * @apiParam (Request body) {String} status
+ *      Whether the task is 'Incomplete', 'In Progress', or 'Complete'.
+ * 
+ * @apiSuccess (201 Created) {Object} task
+ *      The created task object, with id and provided attributes.
+ * @apiSuccessExample {json} Success-Response:  
+ *      HTTP/1.1 201 Created
+ *      {
+ *          "name": "test task 3-1-2024",
+ *          "description": "test desc 2:55 PM 3-1-2024",
+ *          "deadline": "2024-03-01T00:00:00.000Z",
+ *          "status": "Complete",
+ *          "_id": "65e235b50cae1698108f0b57",
+ *          "created_at": "2024-03-01T20:08:21.631Z",
+ *          "updated_at": "2024-03-01T20:08:21.635Z",
+ *          "__v": 0
+ *      }
+*/
 router.post('/add', validate([
     ...taskValidationRules,
     body('name').notEmpty().withMessage('name is a required field')
