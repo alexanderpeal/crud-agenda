@@ -34,7 +34,7 @@ const taskValidationRules = [
     body('name').optional().isString().withMessage('name must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
     body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
-    body('status').optional().isString().withMessage('complete must be a boolean')
+    body('status').optional().isString().withMessage('complete must be a string')
 ];
 
 /**
