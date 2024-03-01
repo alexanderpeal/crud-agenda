@@ -1,5 +1,5 @@
-# Task Management Application
-A basic to-do list. 
+# Enfocate
+A task management application.
 
 Current features:
 - You can view all of the tasks you've created
