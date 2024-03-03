@@ -13,7 +13,7 @@
 // Setup (router, validation, task model)
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task'); //.default;
+const Task = require('../../../models/task'); //.default;
 const {body, validationResult} = require('express-validator');
 
 // HTTP status codes

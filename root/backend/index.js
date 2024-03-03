@@ -9,12 +9,13 @@
 // API versioning
 require('dotenv').config({path: `./.env`});
 const apiVersion = process.env.API_VERSION || 'v1';
+const PORT = process.env.PORT || 3001;
 
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const taskRouter = require(`./src/${apiVersion}/routes/task-router`);
+const taskRouter = require(`./src/api/${apiVersion}/routes/task-router`);
 
 // Configure express
 const app = express();
@@ -24,18 +25,19 @@ app.use(express.static('public'));
 app.use(`/api/${apiVersion}/tasks`, taskRouter);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.DEV_DB_URI);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, "MongoDB connection error: "));
 db.once('open', () => {
     console.log("MongoDB database successfully connected");
 });
 
-// Start the server
-app.listen(3001, () => {
-    console.log(`Server running on port 3001, API ${apiVersion}`);
-});
+// Start the server 
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port 3001, API ${apiVersion}`);
+    });
+}
 
 // Export for testing purposes
 module.exports = app;
-
