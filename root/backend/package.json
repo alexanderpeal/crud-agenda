@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha --exit ./test/**/*.js",
+    "test": "cross-env NODE_ENV=test nyc --reporter=text mocha --exit ./test/**/*.js",
+    "test-no-coverage": "cross-env NODE_ENV=test mocha --exit ./test/**/*.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
@@ -26,6 +27,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "@stryker-mutator/core": "^8.2.6",
+    "cross-env": "^7.0.3",
+    "nyc": "^15.1.0"
   }
 }

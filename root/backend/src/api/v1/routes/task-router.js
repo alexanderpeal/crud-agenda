@@ -31,10 +31,10 @@ const STATUS_NOT_FOUND = 404;
  * @type {Array<ValidationChain>}
  */
 const taskValidationRules = [
-    body('name').optional().isString().withMessage('name must be a string'),
+    body('name').notEmpty().withMessage('name is a required field ').isString().withMessage('name must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
-    body('deadline').optional().isISO8601().withMessage('deadline must be a valid date'),
-    body('status').optional().isString().withMessage('complete must be a string')
+    body('deadline').optional().isISO8601().withMessage('deadline must be a Date in ISO8601 format'),
+    body('status').notEmpty().withMessage('status is a required field ').isString().withMessage('status must be a string')
 ];
 
 /**
@@ -121,13 +121,9 @@ const asyncHandler = fn => (req, res, next) => {
  *          "__v": 0
  *      }
 */
-router.post('/add', validate([
-    ...taskValidationRules,
-    body('name').notEmpty().withMessage('name is a required field')
-]), asyncHandler(async (req, res) => {
+router.post('/add', validate([...taskValidationRules]), asyncHandler(async (req, res) => {
     const newTask = new Task({...req.body});
     const savedTask = await newTask.save();
-    console.log(`Created ${newTask}`);
     res.status(STATUS_CREATED).json(savedTask);
 }));
 

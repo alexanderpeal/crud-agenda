@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
  * @property {String} [description]
  *      An optional description of the task. Optional, trimmed, max 500
  *      characters.
- * @property {Date} deadline
+ * @property {Date} [deadline]
  *      An optional deadline for the task.
  * @property {String} status
  *      The status of the task. Must be one of ['Complete', 'Incomplete',
