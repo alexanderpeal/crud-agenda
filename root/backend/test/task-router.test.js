@@ -1,42 +1,43 @@
-// require('dotenv').config({path: `./.env`});
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
+/**
+ * Tests task-router.js
+ */
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 
-// import * as chai from 'chai';
-// import chaiHttp from 'chai-http';
-// import "dotenv/config.js";
-
-const chai = await import('chai');
-
+require('dotenv').config({path: `./.env`});
 const apiVersion = process.env.API_VERSION || 'v1';
 
+let server;
+
 async function loadModule(dynamicallyGeneratedPath) {
-try {
-const module = await import(dynamicallyGeneratedPath);
-// Use the imported module
-console.log(module);
-} catch (error) {
-console.error('Failed to load the module:', error);
+    try {
+        server = await import(dynamicallyGeneratedPath);
+        // Use the imported module
+        console.log(server);
+    } catch (error) {
+        console.error('Failed to load the module:', error);
+    }
 }
-}
+
 const moduleName = 'example';
 const modulePath = `./path/to/${moduleName}.js`;
 
-
-
-const SERVER_PATH = `./src/${apiVersion}/routes.task-router.js`
-loadModule(SERVER_PATH);
-//import server from SERVER_PATH;
-
-
+const SERVER_PATH = '../index'; // api/${apiVersion}/routes/task-router`;
+// loadModule(SERVER_PATH);
+// import server from SERVER_PATH;
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 const POST_ROUTE = `POST /api/${apiVersion}/tasks/add`;
 
+const app = require('../index');
+
 describe(POST_ROUTE, function() {
-    it('should create a new task and return it', (done) => {
+    // before(async () => {
+    //     await loadModule(SERVER_PATH);
+    // });
+    it('should create a new task and return it', async () => {
         const task = {
             name: 'Test task',
             description: 'Test description',
@@ -44,12 +45,19 @@ describe(POST_ROUTE, function() {
             status: 'Incomplete'
         }
 
-        chai.request(server)
+        const res = await chai.request(app)
             .post('/api/v1/tasks/add')
-            .send(task)
-            .end((err, res) => {
-                expect(err).to.be.null;
-                done();
-            });
+            .send(task);
+
+            // .end((err, res) => {
+            //     expect(err).to.be.null;
+            //     expect(res.body).to.be.an('object');
+            //     done();
+            // });
+        
+        expect(res).to.have.status(201);
+
+        expect(res.body).to.be.an('object');
+        expect(res.body.name).to.equal(task.name);
     });
 });

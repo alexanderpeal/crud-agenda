@@ -1,31 +1,27 @@
-// config/database.js
 const mongoose = require('mongoose');
+const Task = require('../models/task');
+require('dotenv').config();
 
 const connectDB = async () => {
-    let DB_URI;
+    const DB_URIs = {
+        production: process.env.PROD_DB_URI,
+        test: process.env.TEST_DB_URI,
+        development: process.env.DEV_DB_URI,
+    };
 
-    switch (process.env.NODE_ENV) {
-        case 'production':
-            DB_URI = process.env.PROD_DB_URI;
-            break;
-        case 'test':
-            DB_URI = process.env.TEST_DB_URI;
-            break;
-        default:
-            DB_URI = process.env.DEV_DB_URI;
-    }
+    const DB_URI = DB_URIs[process.env.NODE_ENV] || DB_URIs.development;
 
     try {
-        await mongoose.connect(DB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            // other options
-        });
-        console.log(`MongoDB Connected: ${mongoose.connection.host}`);
+        await mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log(`MongoDB Connected: ${DB_URI}`);
     } catch (err) {
-        console.error(err);
-        process.exit(1); // Exit process with failure
+        console.error(`Database connection error: ${err}`);
+        process.exit(1);
     }
 };
 
-module.exports = connectDB;
+const clearDB = async() => {
+    await Task.deleteMany({});
+}
+
+module.exports = { connectDB, clearDB };

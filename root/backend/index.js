@@ -16,6 +16,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const taskRouter = require(`./src/api/${apiVersion}/routes/task-router`);
+const { connectDB, clearDB } = require('./src/config/database');
 
 // Configure express
 const app = express();
@@ -25,19 +26,23 @@ app.use(express.static('public'));
 app.use(`/api/${apiVersion}/tasks`, taskRouter);
 
 // Connect to MongoDB
-mongoose.connect(process.env.DEV_DB_URI);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, "MongoDB connection error: "));
-db.once('open', () => {
-    console.log("MongoDB database successfully connected");
-});
+connectDB();
+
+
+// mongoose.connect(process.env.DEV_DB_URI);
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, "MongoDB connection error: "));
+// db.once('open', () => {
+//     console.log("MongoDB database successfully connected");
+// });
+
+let server;
 
 // Start the server 
 if (require.main === module) {
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
         console.log(`Server running on port 3001, API ${apiVersion}`);
     });
 }
 
-// Export for testing purposes
 module.exports = app;
