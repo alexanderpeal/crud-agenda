@@ -32,7 +32,7 @@ global.afterEach(async () => {
 });
 
 describe(ADD_TASK_ROUTE, function() {
-    it('should create a new task and return it', async () => {
+    it('Should create a new task and return it, when given task with name, desc., deadline, status', async () => {
         const task = {
             name: 'Test task',
             description: 'Test description',

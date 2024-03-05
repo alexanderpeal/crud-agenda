@@ -36,7 +36,7 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: [true, "name is a required field"],
         trim: true,
         maxlength: 100
     },
@@ -52,9 +52,8 @@ const taskSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
         enum: ['Complete', 'Incomplete', 'In Progress'],
-        default: ['Incomplete']
+        default: 'Incomplete'
     },
     created_at: {
         type: Date,
