@@ -28,7 +28,9 @@
   },
   "devDependencies": {
     "@stryker-mutator/core": "^8.2.6",
+    "@stryker-mutator/mocha-runner": "^8.2.6",
     "cross-env": "^7.0.3",
+    "mongodb-memory-server": "^9.1.6",
     "nyc": "^15.1.0"
   }
 }

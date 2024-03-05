@@ -8,28 +8,27 @@ const apiVersion = process.env.API_VERSION || 'v1';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../index');
-const { connectDB, clearDB } = require('../src/config/database');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const mongoose = require('mongoose');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 const ADD_TASK_ROUTE = `POST /api/${apiVersion}/tasks/add`;
 
-describe('Global test setup', function() {
-    before(function() {
-        if (process.env.NODE_ENV !== 'test') {
-            console.error("CRITICAL: NODE_ENV is not set to 'test'. Aborting");
-            process.exit(1);
-        }
-    });
+global.beforeEach(async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await mongoose.connect(mongoUri);
 });
-
-before(async () => {
-    await connectDB();
-});
-
-afterEach(async () => {
-    await clearDB();
+  
+global.afterEach(async () => {
+    if (mongoose.connection.readyState) {
+        await mongoose.disconnect();
+    }
+    if (mongoServer) {
+        await mongoServer.stop();
+    }
 });
 
 describe(ADD_TASK_ROUTE, function() {
@@ -48,6 +47,30 @@ describe(ADD_TASK_ROUTE, function() {
         expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
         expect(res.body.name).to.equal(task.name);
-        
     });
+
+    // it('should throw an error', async () => {
+    //     const bad_task = {
+    //         name: false,
+    //         description: false
+    //     }
+    //     var err = false;
+    //     try {
+    //         const res = await chai.request(app)
+    //         .post('api/v1/tasks/add')
+    //         .send(bad_task);
+    //     } catch (error) {
+    //         err = True;
+    //         expect(error).to.exist();
+    //     } finally {
+    //         if (!err) {
+    //             throw new Error();
+    //         }
+    //     }
+        
+    // });
 });
+
+after(async () => {
+    await mongoServer.stop();
+})

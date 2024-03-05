@@ -128,33 +128,33 @@ router.post('/add', validate([...taskValidationRules]), asyncHandler(async (req,
 }));
 
 // READ (read all tasks from the database)
-router.get('/', asyncHandler(async (req, res) => {
-    const tasks = await Task.find().lean();
-    // res.render('tasks', { tasks });
-    res.status(STATUS_OK).json(tasks);
-}));    
+// router.get('/', asyncHandler(async (req, res) => {
+//     const tasks = await Task.find().lean();
+//     // res.render('tasks', { tasks });
+//     res.status(STATUS_OK).json(tasks);
+// }));    
 
 // UPDATE an item (by task name)
-router.patch('/:taskName', validate(taskValidationRules), asyncHandler(async (req, res) => {
-    const updatedTask = await Task.findOneAndUpdate(
-        { itemName: req.params.taskName },
-        req.body,
-        { new: true, runValidators: true }
-    );
-    if (!updatedTask) {
-        return res.status(STATUS_NOT_FOUND).json({ message: 'Task not found' });
-    }
-    res.status(STATUS_OK).json(updatedTask);
-}));
+// router.patch('/:taskName', validate(taskValidationRules), asyncHandler(async (req, res) => {
+//     const updatedTask = await Task.findOneAndUpdate(
+//         { itemName: req.params.taskName },
+//         req.body,
+//         { new: true, runValidators: true }
+//     );
+//     if (!updatedTask) {
+//         return res.status(STATUS_NOT_FOUND).json({ message: 'Task not found' });
+//     }
+//     res.status(STATUS_OK).json(updatedTask);
+// }));
 
 // DELETE an item (by task name)
-router.delete('/:taskName', asyncHandler(async (req, res) => {
-    const deletedTask = await Task.findOneAndDelete({ itemName: req.params.taskName });
-    if (!deletedTask) {
-        return res.status(STATUS_NOT_FOUND).json({ message: "Task not found" });
-    }
-    res.status(STATUS_OK).json(deletedTask);
-}));
+// router.delete('/:taskName', asyncHandler(async (req, res) => {
+//     const deletedTask = await Task.findOneAndDelete({ itemName: req.params.taskName });
+//     if (!deletedTask) {
+//         return res.status(STATUS_NOT_FOUND).json({ message: "Task not found" });
+//     }
+//     res.status(STATUS_OK).json(deletedTask);
+// }));
 
 module.exports = router;
 // export default router;
