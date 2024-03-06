@@ -121,10 +121,14 @@ const asyncHandler = fn => (req, res, next) => {
  *          "__v": 0
  *      }
 */
-router.post('/add', validate([...taskValidationRules]), asyncHandler(async (req, res) => {
-    const newTask = new Task({...req.body});
-    const savedTask = await newTask.save();
-    res.status(STATUS_CREATED).json(savedTask);
+router.post('/add', validate([...taskValidationRules]), asyncHandler(async (req, res, next) => {
+    try {
+        const newTask = new Task({...req.body});
+        const savedTask = await newTask.save();
+        res.status(STATUS_CREATED).json(savedTask);
+    } catch (error) {
+        next(error);
+    }   
 }));
 
 // READ (read all tasks from the database)
@@ -155,6 +159,11 @@ router.post('/add', validate([...taskValidationRules]), asyncHandler(async (req,
 //     }
 //     res.status(STATUS_OK).json(deletedTask);
 // }));
+
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 module.exports = router;
 // export default router;

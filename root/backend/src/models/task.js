@@ -54,22 +54,8 @@ const taskSchema = new mongoose.Schema({
         type: String,
         enum: ['Complete', 'Incomplete', 'In Progress'],
         default: 'Incomplete'
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now
     }
-});
-
-// Middleware to automatically update the 'updated_at' field on save
-taskSchema.pre('save', function(next) {
-    this.updated_at = Date.now();
-    next();
-});
+},{ timestamps: true });
 
 const Task = mongoose.model('Task', taskSchema);
 
