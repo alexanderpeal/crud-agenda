@@ -17,7 +17,7 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ task, onTaskDeleted }) =>
 
     const handleDelete = async () => {
         try {
-          const response = await axios.delete(`http://localhost:3001/api/v1/tasks/${task.itemName}`);
+          const response = await axios.delete(`http://localhost:3001/api/v1/tasks/${task.name}`);
           console.log('Task deleted successfully:', response.data);
           
           onTaskDeleted();
@@ -30,10 +30,10 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ task, onTaskDeleted }) =>
         <div className="hover:bg-sky-700 relative flex items-start justify-between p-4">
             <div>
                 <ul>
-                    <li>Task Name - {task.itemName}</li>
+                    <li>Task Name - {task.name}</li>
                     <li>Description - {task.description}</li>
                     <li>Deadline - {task.deadline ? task.deadline.toString() : "no deadline"}</li>
-                    <li>Status - {task.complete ? "Complete" : "Incomplete"}</li>
+                    <li>Status - {task.status ? "Complete" : "Incomplete"}</li>
                 </ul>
             </div>
 

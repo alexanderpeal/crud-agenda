@@ -7,10 +7,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from "react";
 
 interface Task {
-  itemName: string;
+  name: string;
   description: string;
   deadline:Date;
-  complete:boolean;
+  status:boolean;
 }
 
 export default function Home() {

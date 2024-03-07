@@ -4,8 +4,8 @@
 
 export interface Task {
     //id: string;
-    itemName: string;
+    name: string;
     description: string;
     deadline: Date;
-    complete: boolean;
+    status: boolean;
 }
