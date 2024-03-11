@@ -126,8 +126,6 @@ describe('Task - mongoose model', function() {
         
     });
 
-    
-
     it('Should not create a new task when given bad name', function () {
         const TEST_STATUS = "Incomplete";
 
