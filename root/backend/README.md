@@ -1,21 +1,16 @@
-# Task Management Application (Back-end)
+# Task Management Application Backend
 
-## Run
-To run back-end server:
+## To run
 ```
 npm run dev
 ```
 
 ## Setup
-If cloning, be sure to add the URI to your MongoDB server. 
-See the section on .env variables below.
-
-## IMPORTANT - Use of .env variables in this project
+Ensure .env is present has the following variables:
 
 ### NODE_ENV
 Manage environment using the NODE_ENV variable.
 Choose between 'development', 'test', and 'production'.
-Example:
 ```
 NODE_ENV = "development"
 ```
@@ -35,19 +30,15 @@ Example:
 MONGODB_URI = "mongodb+srv://<your_mongodb_uri_here>"
 ```
 
-## View docs using jsdoc
-For certain files in the back-end, you can view documention using jsdoc: 
-https://github.com/jsdoc/jsdoc
-https://jsdoc.app/
+## Troubleshooting
+Ensure MongoDB recognizes IP address when testing using Stryker
 
-To generate docs, run (tbd)
-
-# TODO: add apidoc
+## TODO: add apidoc
 add apidoc/jsdoc full functionality
 add logging
 verify new schema works
 make request robust for frontend
-frontend should be able to manip db access read write deletes creaesS
+frontend should be able to manip db access read write deletes create
 
 
 ## Changelog

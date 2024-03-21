@@ -13,15 +13,11 @@ const TASK_INCOMPLETE = "Incomplete";
 const TASK_IN_PROGRESS = "In Progress"
 const TASK_COMPLETE = "Complete";
 
-const Task = require('../src/models/task'); // taskSchema }
+const Task = require('../src/models/task');
 
 chai.use(chaiHttp);
 chai.use(chaiDateTime);
 const expect = chai.expect;
-
-describe('taskSchema - mongoose schema', function() {
-
-});
 
 describe('Task - mongoose model', function() {
     it("Should be named 'Task'", function () {
