@@ -1,12 +1,20 @@
 # Task Management Application Backend
 
-## To run
+## Run backend
 ```
 npm run dev
 ```
 
+## Run tests
+```
+npm run test
+```
+```
+npx stryker run
+```
+
 ## Setup
-Ensure .env is present has the following variables:
+Ensure .env is present and has the following variables:
 
 ### NODE_ENV
 Manage environment using the NODE_ENV variable.
