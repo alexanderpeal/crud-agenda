@@ -14,6 +14,8 @@ const mongoose = require('mongoose');
  * @typedef {Object} TaskSchema
  * @property {String} name
  *      The name of the task. Required, trimmed, max. 100 characters.
+ *      Note: turns anything passed to Date to a String. Not 100% sure how.
+ *            (toString?)
  * @property {String} [description]
  *      An optional description of the task. Optional, trimmed, max 500
  *      characters.
@@ -38,13 +40,13 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: [true, "name is a required field"],
         trim: true,
-        maxlength: 100
+        maxLength: 100
     },
     description: {
         type: String,
         required: false,
         trim: true,
-        maxlength: 500
+        maxLength: 500
     },
     deadline: {
         type: Date,
@@ -55,7 +57,8 @@ const taskSchema = new mongoose.Schema({
         enum: ['Complete', 'Incomplete', 'In Progress'],
         default: 'Incomplete'
     }
-},{ timestamps: true });
+    },
+    { timestamps: true });
 
 const Task = mongoose.model('Task', taskSchema);
 
