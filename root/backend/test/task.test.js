@@ -225,18 +225,13 @@ describe('Task mongoose model', function() {
      * - Length exceeds 500
      */
     it("Should not create task when given bad description", function () {
-        // fix this
         const testTaskDescTooLong = new Task({
             name: TASK_NAME_TRIM_BOTH,
             description: new Array(1999).join("_")
         });
 
-        // expect(testTaskDescTooLong.description).to.eql(new Array(503).join("_"));
         error = testTaskDescTooLong.validateSync();
         expect(error).to.be.an.instanceOf(mongoose.Error.ValidationError);
-        // expect(error.errors).to.have.property("description");
-        // expect(error.errors.status.message).to.equal("saideep");
-        
     });
 
      /**
@@ -254,6 +249,13 @@ describe('Task mongoose model', function() {
         expect(error).to.be.an.instanceOf(mongoose.Error.ValidationError);
         expect(error.errors).to.have.property("status");
         expect(error.errors.status.message).to.equal(STATUS_ENUM_MSG);
-        
     });
+
+    /**
+     * TODO
+     * 
+     * Test that the task timestamps work as intended. Requires async operation
+     * (https://mongoosejs.com/docs/timestamps.html), so I'll refrain from
+     * testing it for now.
+     */
 });
