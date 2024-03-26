@@ -33,8 +33,8 @@ const STATUS_NOT_FOUND = 404;
 const taskValidationRules = [
     body('name').notEmpty().withMessage('name is a required field ').isString().withMessage('name must be a string'),
     body('description').optional().isString().withMessage('description must be a string'),
-    body('deadline').optional().isISO8601().withMessage('deadline must be a Date in ISO8601 format'),
-    body('status').notEmpty().withMessage('status is a required field ').isString().withMessage('status must be a string')
+    body('deadline').optional().isISO8601().withMessage('deadline must be a Date in ISO8601 format')
+    // body('status').notEmpty().withMessage('status is a required field ').isString().withMessage('status must be a string')
 ];
 
 /**
@@ -141,7 +141,7 @@ router.get('/', asyncHandler(async (req, res) => {
 // UPDATE an item (by task name)
 router.patch('/:taskName', validate(taskValidationRules), asyncHandler(async (req, res) => {
     const updatedTask = await Task.findOneAndUpdate(
-        { itemName: req.params.taskName },
+        { name: req.params.name },
         req.body,
         { new: true, runValidators: true }
     );
@@ -153,13 +153,14 @@ router.patch('/:taskName', validate(taskValidationRules), asyncHandler(async (re
 
 // DELETE an item (by task name)
 router.delete('/:taskName', asyncHandler(async (req, res) => {
-    const deletedTask = await Task.findOneAndDelete({ itemName: req.params.taskName });
+    const deletedTask = await Task.findOneAndDelete({ itemName: req.params.name });
     if (!deletedTask) {
         return res.status(STATUS_NOT_FOUND).json({ message: "Task not found" });
     }
     res.status(STATUS_OK).json(deletedTask);
 }));
 
+// Error handling middleware
 router.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');

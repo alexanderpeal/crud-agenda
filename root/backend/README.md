@@ -9,6 +9,8 @@ npm run dev
 ```
 npm run test
 ```
+
+## Run mutation tests
 ```
 npx stryker run
 ```
