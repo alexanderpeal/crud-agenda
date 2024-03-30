@@ -14,7 +14,7 @@ const TaskFormComponent: React.FC<TaskFormProps> = ({ onTaskAdded }) => {
   const [description, setDescription] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents submission of form from refreshing
 
     try {
       const response = await axios.post(
