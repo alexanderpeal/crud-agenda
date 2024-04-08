@@ -152,8 +152,9 @@ router.patch('/:taskName', validate(taskValidationRules), asyncHandler(async (re
 }));
 
 // DELETE an item (by task name)
-router.delete('/:taskName', asyncHandler(async (req, res) => {
-    const deletedTask = await Task.findOneAndDelete({ itemName: req.params.name });
+router.delete('/:name', asyncHandler(async (req, res) => {
+    // FIXME: deletes first item in collection... is it because i used itemName?
+    const deletedTask = await Task.findOneAndDelete({ name: req.params.name });
     if (!deletedTask) {
         return res.status(STATUS_NOT_FOUND).json({ message: "Task not found" });
     }

@@ -16,6 +16,7 @@ const TaskComponent: React.FC<TaskComponentProps> = ({ task, onTaskDeleted }) =>
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
     const handleDelete = async () => {
+        console.log(task)
         try {
           const response = await axios.delete(`http://localhost:3001/api/v1/tasks/${task.name}`);
           console.log('Task deleted successfully:', response.data);

@@ -22,8 +22,6 @@ const TaskFormComponent: React.FC<TaskFormProps> = ({ onTaskAdded }) => {
         {name: name, description: description}
       );
       onTaskAdded();
-      console.log(response.data);
-
       setName('');
       setDescription('');
     } catch (error) {
