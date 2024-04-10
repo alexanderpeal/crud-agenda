@@ -4,6 +4,8 @@ import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import TaskComponent from "./TaskComponent";
 import TaskFormComponent from "./TaskFormComponent";
+import Sidebar from './Sidebar';
+import Header from './Header';
 
 
 interface Task {
@@ -33,11 +35,16 @@ export default function Home() {
 
   return (
     <main className="">
+      <Header />
+      
+
+      {/* <Sidebar />
+
       <div className="w-full p-8 bg-red-200">
         <h1 className="text-center text-3xl ">To-Do List</h1>
-      </div>
+      </div> */}
 
-      <div className="flex flex-wrap">
+      {/* <div className="flex flex-wrap">
         <div className="flex-1 p-4 bg-yellow-200">
           {tasks.map(task => (
             <TaskComponent task={task} onTaskDeleted={fetchTasks}/>
@@ -48,7 +55,7 @@ export default function Home() {
           <TaskFormComponent onTaskAdded={fetchTasks}/>
         </div>
 
-      </div>
+      </div> */}
 
     </main>
   );
