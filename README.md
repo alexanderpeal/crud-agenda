@@ -1,11 +1,5 @@
 # Enfocate
-A task management application.
-
-Current features:
-- You can view all of the tasks you've created
-- You can create tasks to complete
-- You can update a given task
-- You can delete tasks that you've completed
+A task management application supporting CRUD operations
 
 ## How to run
 In root/backend, run ```npm run dev```<br>
